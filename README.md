@@ -30,5 +30,13 @@ Checkout process and order confirmation
 
 Form validations and error handling
 
+features:
+
+configuration file to store url,browser (chrome or firefox) ,username and password or any other needed configuration data.
+
+csv file to store test data.
+
+tests are executed in parallel simultaneously.
+
 #project structure
 ![image](https://github.com/user-attachments/assets/edcfd365-f283-4989-b004-eb9f547d42af)
