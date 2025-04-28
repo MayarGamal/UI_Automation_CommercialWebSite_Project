@@ -73,11 +73,11 @@ public class PurchaseFlowTest {
         Assert.assertTrue(driver.getPageSource().contains("Your order has been dispatched"));
     }
 
-//    @AfterMethod
-//    public void tearDown() {
-//        if (driver != null) {
-//            driver.quit();
-//        }
-      //  DriverFactory.closeDriver();  // Close driver after test
-  //  }
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+        DriverFactory.closeDriver();  // Close driver after test
+    }
 }
