@@ -22,13 +22,23 @@ public class CartPage {
     public boolean areProductsInCart(String firstProductName, String secondProductName) {
         List<WebElement> products = driver.findElements(cartProductNames);
 
-        // Check if there are at least two products in the cart
         if (products.size() < 2) {
             return false;
         }
 
-        // Verify the product names
-        return products.get(0).getText().contains(firstProductName) &&
-                products.get(1).getText().contains(secondProductName);
+        boolean firstProductFound = false;
+        boolean secondProductFound = false;
+
+        for (WebElement product : products) {
+            String productName = product.getText();
+            if (productName.contains(firstProductName)) {
+                firstProductFound = true;
+            }
+            if (productName.contains(secondProductName)) {
+                secondProductFound = true;
+            }
+        }
+
+        return firstProductFound && secondProductFound;
     }
 }

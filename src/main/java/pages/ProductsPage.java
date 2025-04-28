@@ -1,31 +1,42 @@
 package pages;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.*;
 
 public class ProductsPage {
     WebDriver driver;
 
-    // Locators for the most expensive products (modify if necessary)
-    By firstProductPrice = By.xpath("(//div[@class='inventory_item_price'])[1]");
-    By secondProductPrice = By.xpath("(//div[@class='inventory_item_price'])[2]");
-    By addToCartButton = By.xpath("//button[contains(@class,'btn_inventory')]");
+    By productContainer = By.className("inventory_item");
+    By productPrice = By.className("inventory_item_price");
+    By addToCartButton = By.xpath(".//button[contains(@class,'btn_inventory')]"); // Note the '.' for relative xpath
 
     public ProductsPage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public double getFirstProductPrice() {
-        String priceText = driver.findElement(firstProductPrice).getText().replace("$", "");
-        return Double.parseDouble(priceText);
-    }
-
-    public double getSecondProductPrice() {
-        String priceText = driver.findElement(secondProductPrice).getText().replace("$", "");
-        return Double.parseDouble(priceText);
-    }
-
     public void addMostExpensiveProductsToCart() {
-        driver.findElements(addToCartButton).get(0).click(); // Add first product
-        driver.findElements(addToCartButton).get(1).click(); // Add second product
+        List<WebElement> products = driver.findElements(productContainer);
+
+        // Create a map to store product and its price
+        Map<WebElement, Double> productPriceMap = new HashMap<>();
+
+        for (WebElement product : products) {
+            String priceText = product.findElement(productPrice).getText().replace("$", "");
+            double price = Double.parseDouble(priceText);
+            productPriceMap.put(product, price);
+        }
+
+        // Sort products by price in descending order
+        List<Map.Entry<WebElement, Double>> sortedProducts = new ArrayList<>(productPriceMap.entrySet());
+        sortedProducts.sort((entry1, entry2) -> Double.compare(entry2.getValue(), entry1.getValue()));
+
+        // Add the top two expensive products to the cart
+        for (int i = 0; i < 2 && i < sortedProducts.size(); i++) {
+            WebElement product = sortedProducts.get(i).getKey();
+            product.findElement(addToCartButton).click();
+        }
     }
 }

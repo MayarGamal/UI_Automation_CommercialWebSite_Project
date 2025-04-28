@@ -48,7 +48,7 @@ public class PurchaseFlowTest {
         cartPage.clickCheckout();
 //        Thread.sleep(10000);
         // Step 5: Verify correct products in the cart
-        Assert.assertTrue(cartPage.areProductsInCart("Sauce Labs Backpack", "Sauce Labs Bike Light"));
+        Assert.assertTrue(cartPage.areProductsInCart("Sauce Labs Backpack", "Sauce Labs Fleece Jacket"));
         Thread.sleep(3000);
 //        // Step 6: Fill in checkout form
         checkoutPage.clickCheckout();
@@ -60,24 +60,24 @@ public class PurchaseFlowTest {
 
         // Step 8: Verify total before taxes
         String itemsTotal = overviewPage.getItemsTotalBeforeTax();
-        Assert.assertTrue(itemsTotal.contains("39.98"));
+        Assert.assertTrue(itemsTotal.contains("79.98"));
 
         // Step 9: Verify the URL
-        Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/checkout-steptwo.html");
+        Assert.assertEquals(driver.getCurrentUrl(), "https://www.saucedemo.com/checkout-step-two.html");
 
         // Step 10: Finish the purchase
         overviewPage.clickFinish();
 
         // Step 11: Verify success message
-        Assert.assertTrue(driver.getPageSource().contains("THANK YOU FOR YOUR ORDER"));
+        Assert.assertTrue(driver.getPageSource().contains("Thank you for your order!"));
         Assert.assertTrue(driver.getPageSource().contains("Your order has been dispatched"));
     }
 
-    @AfterMethod
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
-        DriverFactory.closeDriver();  // Close driver after test
-    }
+//    @AfterMethod
+//    public void tearDown() {
+//        if (driver != null) {
+//            driver.quit();
+//        }
+      //  DriverFactory.closeDriver();  // Close driver after test
+  //  }
 }
